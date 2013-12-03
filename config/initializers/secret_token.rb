@@ -16,4 +16,8 @@
 # Using secret_token for rails3 compatibility. Change to secret_key_base
 # to avoid deprecation warning.
 # Can be safely removed in a rails3 api-only application.
-ActiveModelSerializersExample::Application.config.secret_token = '7569cb4b8ca08590785f826a8bed8b4930e3f40e672a3d5efa98d411c02931671d21a19297dde5b124dcb201cdde47a023414bf5c211990c2bbd5a03de14ebf5'
+ActiveModelSerializersExample::Application.config.secret_token = if Rails.env.development? or Rails.env.test?
+  ('x' * 30) # meets minimum requirement of 30 chars long
+else
+  ENV['SECRET_TOKEN']
+end
